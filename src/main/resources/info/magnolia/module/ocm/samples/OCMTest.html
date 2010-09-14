@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Jackrabbit OCM Test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="${this.request.contextPath}/.resources/admin-css/admin-all.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body id="mgnl">
+        <h3>Jackrabbit OCM Test</h3>
+        <h4>What is it?</h4>
+		<a href="http://jackrabbit.apache.org/object-content-mapping.html" target="_blank">OCM</a> is an object/JCR persistence (and query) service. This tools lets you to persist Java objects (POJOs) into a JCR compliant repository and back.
+
+		<h4>magnolia-module-ocm</h4>
+        <div>The module is in a very early state. It uses the "Press Release" scenario you can find at the OCM website and allows you to use the CRUD methods (<b>C</b>reate, <b>R</b>etrieve, <b>U</b>pdate, <b>D</b>elete) by exclusively working with POJOs instead of JCR nodes. The module also does auto creation of parent nodes when needed as well as auto generation of a node names. The two features have been aded "outside" of the OCM framework in order to keep the ocm distribution untouched. However we will try to provide these extensions to the OCM framework as patch, hoping that they will get included, because outside of OCM they are quite ugly hacks.</div>
+        <br />
+        <div>
+            <a href="?command=createPressRelease">Create press release</a>
+        </div>
+        <div>
+            <a href="?command=loadPressReleases">Retrieve press releases</a>
+            <#if this.pressReleases?has_content>
+            	<table class="data" style="margin-top: 1em;">
+            		<tr>
+            			<th>Name</th>
+            			<th>Date</th>
+            			<th>Title</th>
+            			<th>Subtitle</th>
+            			<th></th>
+            		</tr>
+	                <#list this.pressReleases as currPressRelease>
+	                	<tr>
+	                		<td>${currPressRelease.name}</td>
+	                		<td><#if currPressRelease.date??>${currPressRelease.date?date}</#if></td>
+                    		<td>${currPressRelease.title!}</td>
+                    		<td>${currPressRelease.subTitle!}</td>
+                    		<td><a href="?command=updatePressRelease&uuid=${currPressRelease.uuid}">update</a> | <a href="?command=deletePressRelease&uuid=${currPressRelease.uuid}">delete</a></td>
+                    	</tr>
+	                </#list>
+                </table>
+            </#if>
+        </div>
+    </body>
+</html>
