@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>info.magnolia</groupId>
+  <groupId>ch.fastforward</groupId>
   <artifactId>magnolia-module-ocm</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
@@ -53,23 +53,27 @@
 
   <repositories>
     <repository>
-      <id>magnolia</id>
-      <url>http://svn.magnolia.info/maven/m2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <!-- enable this if you need magnolia snapshots :
-    <repository>
-      <id>magnolia.snapshots</id>
-      <url>http://svn.magnolia.info/maven/snapshots</url>
+      <id>magnolia.public</id>
+      <url>http://nexus.magnolia-cms.com/content/groups/public</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
     </repository>
-    -->
   </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>magnolia.forge.releases</id>
+      <url>http://nexus.magnolia-cms.com/content/repositories/magnolia.forge.releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>magnolia.forge.snapshots</id>
+      <url>http://nexus.magnolia-cms.com/content/repositories/magnolia.forge.snapshots</url>
+    </snapshotRepository>
+    <site>
+      <id>magnolia.forge.sites</id>
+      <url>dav:http://nexus.magnolia-cms.com/content/sites/magnolia.forge.sites/${project.groupId}/${project.artifactId}/${project.version}</url>
+    </site>
+  </distributionManagement>
+
 </project>
