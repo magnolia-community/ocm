@@ -41,7 +41,7 @@ import info.magnolia.module.delta.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * This class is used to handle installation and updates of your module.
  */
 public class OCMModuleVersionHandler extends DefaultModuleVersionHandler {

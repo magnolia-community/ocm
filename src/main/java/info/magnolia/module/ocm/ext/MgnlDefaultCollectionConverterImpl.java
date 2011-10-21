@@ -75,12 +75,6 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
     public static final String DEFAULT_COLLECTION_NODE_TYPE = "mgnl:contentNode";
     private static Logger log = LoggerFactory.getLogger(MgnlDefaultCollectionConverterImpl.class);
 
-    /**
-     * Constructor
-     * @param atomicTypeConverters
-     * @param objectConverter
-     * @param mapper
-     */
     public MgnlDefaultCollectionConverterImpl(Map atomicTypeConverters,
             ObjectConverter objectConverter,
             Mapper mapper) {

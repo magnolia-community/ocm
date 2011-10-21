@@ -34,7 +34,6 @@
 package info.magnolia.module.ocm.ext;
 
 import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
-import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
 
 /**
  *

@@ -34,7 +34,6 @@
 package info.magnolia.module.ocm.ext;
 
 import info.magnolia.module.ocm.OCMModule;
-import java.util.Collection;
 import java.util.Iterator;
 import org.apache.jackrabbit.ocm.mapper.DescriptorReader;
 import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
@@ -49,7 +48,8 @@ public class MgnlConfigDescriptorReader implements DescriptorReader {
 
     /**
      * Turns the Collection of ClassDescriptor objects stored in the CRUDModule
-     * into a MappingDescriptor
+     * into a MappingDescriptor.
+     * 
      * @return MappingDescritor object containing the ClassDescriptors stored
      * in config:/modules/ocm/config/classDescriptors
      * @todo Expand this method so that it actually reads the config tree and

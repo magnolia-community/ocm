@@ -33,8 +33,8 @@
  */
 package info.magnolia.module.ocm.ext;
 
-import info.magnolia.module.ocm.util.MgnlOCMUtil;
 import info.magnolia.cms.core.Content;
+import info.magnolia.module.ocm.util.MgnlOCMUtil;
 import java.util.Stack;
 import javax.jcr.AccessDeniedException;
 import javax.jcr.ItemExistsException;
