@@ -31,9 +31,9 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.samples;
+package ch.fastforward.magnolia.ocm.samples;
 
-import info.magnolia.module.ocm.beans.OCMBean;
+import ch.fastforward.magnolia.ocm.beans.OCMBean;
 
 /**
  *

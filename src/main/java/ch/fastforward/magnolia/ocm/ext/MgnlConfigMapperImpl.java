@@ -31,37 +31,19 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.ext;
+package ch.fastforward.magnolia.ocm.ext;
 
-import info.magnolia.module.ocm.OCMModule;
-import java.util.Iterator;
-import org.apache.jackrabbit.ocm.mapper.DescriptorReader;
-import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
-import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
+import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
 
 /**
  *
  * @author will
  */
-public class MgnlConfigDescriptorReader implements DescriptorReader {
+public class MgnlConfigMapperImpl extends AbstractMapperImpl {
 
-
-    /**
-     * Turns the Collection of ClassDescriptor objects stored in the CRUDModule
-     * into a MappingDescriptor.
-     * 
-     * @return MappingDescritor object containing the ClassDescriptors stored
-     * in config:/modules/ocm/config/classDescriptors
-     * @todo Expand this method so that it actually reads the config tree and
-     * builds the ClassDescriptor objects so that we don't have to rely on
-     * Content2Bean to do it and therefore can get rid of "class" properties.
-     */
-    public MappingDescriptor loadClassDescriptors() {
-        MappingDescriptor mappingDescriptor = new MappingDescriptor();
-        Iterator<ClassDescriptor> classDescriptors = OCMModule.getModuleConfig().getClassDescriptors().iterator();
-        while (classDescriptors.hasNext()) {
-            mappingDescriptor.addClassDescriptor(classDescriptors.next());
-        }
-        return mappingDescriptor;
+    public MgnlConfigMapperImpl() {
+        this.descriptorReader = new MgnlConfigDescriptorReader();
+        this.buildMapper();
     }
+
 }

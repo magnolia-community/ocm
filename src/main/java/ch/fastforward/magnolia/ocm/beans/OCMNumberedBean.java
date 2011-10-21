@@ -31,9 +31,9 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.beans;
+package ch.fastforward.magnolia.ocm.beans;
 
-import info.magnolia.module.ocm.util.MgnlOCMUtil;
+import ch.fastforward.magnolia.ocm.util.MgnlOCMUtil;
 import info.magnolia.cms.core.Content;
 import info.magnolia.cms.security.AccessDeniedException;
 import info.magnolia.cms.util.NodeDataUtil;

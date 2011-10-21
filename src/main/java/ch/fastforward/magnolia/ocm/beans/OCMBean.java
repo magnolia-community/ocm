@@ -31,46 +31,75 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm;
+package ch.fastforward.magnolia.ocm.beans;
 
-import info.magnolia.module.ModuleRegistry;
-import java.util.Collection;
+import org.apache.commons.lang.StringUtils;
 
 /**
- * This is the configuration bean of your Magnolia module. It has to be registered in the module descriptor file 
- * under src/main/resources/META-INF/magnolia/mymodule.xml.
- * 
- * The bean properties used in this class will be initialized by Content2Bean which means that properties of in the 
- * node config:/modules/mymodule/config/* are populated to this bean when the module is initialized.
+ *
+ * @author will
  */
-public class OCMModule {
+public abstract class OCMBean {
 
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OCMModule.class);
-    public static final String MODULE_NAME = "ocm";
-    private Collection classDescriptors;
+    private String parentPath;
+    private String uuid;
+    private String name;
 
-    /*
-     * Required default constructor
-     */
-    public OCMModule() {
-        // TODO: insert your initialization stuff here
-    }
-
-    public static OCMModule getModuleConfig() {
-        return (OCMModule) ModuleRegistry.Factory.getInstance().getModuleInstance(MODULE_NAME);
+    public OCMBean() {
     }
 
     /**
-     * @return the classDescriptors
+     * @return the path
      */
-    public Collection getClassDescriptors() {
-        return classDescriptors;
+    public String getPath() {
+        return getParentPath() + "/" + getName();
+    }
+
+    public void setPath(String path) {
+        if (StringUtils.isNotBlank(path)) {
+            setParentPath(StringUtils.substringBeforeLast(path, "/"));
+        }
     }
 
     /**
-     * @param classDescriptors the classDescriptors to set
+     * @return the uuid
      */
-    public void setClassDescriptors(Collection classDescriptors) {
-        this.classDescriptors = classDescriptors;
+    public String getUuid() {
+        return uuid;
+    }
+
+    /**
+     * @param uuid the uuid to set
+     */
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the parentPath
+     */
+    public String getParentPath() {
+        return parentPath;
+    }
+
+    /**
+     * @param parentPath the parentPath to set
+     */
+    public void setParentPath(String parentPath) {
+        this.parentPath = parentPath;
     }
 }

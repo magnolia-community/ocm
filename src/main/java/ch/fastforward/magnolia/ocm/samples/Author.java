@@ -31,19 +31,58 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.ext;
+package ch.fastforward.magnolia.ocm.samples;
 
-import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
+import ch.fastforward.magnolia.ocm.beans.OCMBean;
 
 /**
  *
  * @author will
  */
-public class MgnlConfigMapperImpl extends AbstractMapperImpl {
+public class Author extends OCMBean {
+    private String firstname;
+    private String lastname;
+    private String email;
 
-    public MgnlConfigMapperImpl() {
-        this.descriptorReader = new MgnlConfigDescriptorReader();
-        this.buildMapper();
+    /**
+     * @return the firstname
+     */
+    public String getFirstname() {
+        return firstname;
     }
 
+    /**
+     * @param firstname the firstname to set
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * @return the lastname
+     */
+    public String getLastname() {
+        return lastname;
+    }
+
+    /**
+     * @param lastname the lastname to set
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

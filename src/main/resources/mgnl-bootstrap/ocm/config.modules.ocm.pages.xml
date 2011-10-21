@@ -34,7 +34,7 @@
       <sv:value>5fceb4f3-9374-43f0-b7a3-c7a778118125</sv:value>
     </sv:property>
     <sv:property sv:name="class" sv:type="String">
-      <sv:value>info.magnolia.module.ocm.samples.OCMTest</sv:value>
+      <sv:value>ch.fastforward.magnolia.ocm.samples.OCMTest</sv:value>
     </sv:property>
     <sv:node sv:name="MetaData">
       <sv:property sv:name="jcr:primaryType" sv:type="Name">

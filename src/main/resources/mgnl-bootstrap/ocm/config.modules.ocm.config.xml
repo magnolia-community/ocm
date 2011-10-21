@@ -61,7 +61,7 @@
         <sv:value>org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor</sv:value>
       </sv:property>
       <sv:property sv:name="className" sv:type="String">
-        <sv:value>info.magnolia.module.ocm.samples.PressRelease</sv:value>
+        <sv:value>ch.fastforward.magnolia.ocm.samples.PressRelease</sv:value>
       </sv:property>
       <sv:property sv:name="jcrType" sv:type="String">
         <sv:value>ocmSamplePressRelease</sv:value>
@@ -541,10 +541,10 @@
             <sv:value>org.apache.jackrabbit.ocm.mapper.model.CollectionDescriptor</sv:value>
           </sv:property>
           <sv:property sv:name="collectionConverter" sv:type="String">
-            <sv:value>info.magnolia.module.ocm.ext.MgnlDefaultCollectionConverterImpl</sv:value>
+            <sv:value>ch.fastforward.magnolia.ocm.ext.MgnlDefaultCollectionConverterImpl</sv:value>
           </sv:property>
           <sv:property sv:name="elementClassName" sv:type="String">
-            <sv:value>info.magnolia.module.ocm.samples.URL</sv:value>
+            <sv:value>ch.fastforward.magnolia.ocm.samples.URL</sv:value>
           </sv:property>
           <sv:property sv:name="fieldName" sv:type="String">
             <sv:value>urls</sv:value>
@@ -592,7 +592,7 @@
         <sv:value>org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor</sv:value>
       </sv:property>
       <sv:property sv:name="className" sv:type="String">
-        <sv:value>info.magnolia.module.ocm.samples.Author</sv:value>
+        <sv:value>ch.fastforward.magnolia.ocm.samples.Author</sv:value>
       </sv:property>
       <sv:property sv:name="jcrType" sv:type="String">
         <sv:value>mgnl:contentNode</sv:value>
@@ -879,7 +879,7 @@
         <sv:value>org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor</sv:value>
       </sv:property>
       <sv:property sv:name="className" sv:type="String">
-        <sv:value>info.magnolia.module.ocm.samples.URL</sv:value>
+        <sv:value>ch.fastforward.magnolia.ocm.samples.URL</sv:value>
       </sv:property>
       <sv:property sv:name="jcrType" sv:type="String">
         <sv:value>mgnl:contentNode</sv:value>

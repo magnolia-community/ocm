@@ -31,9 +31,9 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.ext;
+package ch.fastforward.magnolia.ocm.ext;
 
-import info.magnolia.module.ocm.beans.OCMBean;
+import ch.fastforward.magnolia.ocm.beans.OCMBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

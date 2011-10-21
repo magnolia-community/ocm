@@ -31,58 +31,46 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.samples;
+package ch.fastforward.magnolia.ocm;
 
-import info.magnolia.module.ocm.beans.OCMBean;
+import info.magnolia.module.ModuleRegistry;
+import java.util.Collection;
 
 /**
- *
- * @author will
+ * This is the configuration bean of your Magnolia module. It has to be registered in the module descriptor file 
+ * under src/main/resources/META-INF/magnolia/mymodule.xml.
+ * 
+ * The bean properties used in this class will be initialized by Content2Bean which means that properties of in the 
+ * node config:/modules/mymodule/config/* are populated to this bean when the module is initialized.
  */
-public class Author extends OCMBean {
-    private String firstname;
-    private String lastname;
-    private String email;
+public class OCMModule {
 
-    /**
-     * @return the firstname
+    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OCMModule.class);
+    public static final String MODULE_NAME = "ocm";
+    private Collection classDescriptors;
+
+    /*
+     * Required default constructor
      */
-    public String getFirstname() {
-        return firstname;
+    public OCMModule() {
+        // TODO: insert your initialization stuff here
+    }
+
+    public static OCMModule getModuleConfig() {
+        return (OCMModule) ModuleRegistry.Factory.getInstance().getModuleInstance(MODULE_NAME);
     }
 
     /**
-     * @param firstname the firstname to set
+     * @return the classDescriptors
      */
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public Collection getClassDescriptors() {
+        return classDescriptors;
     }
 
     /**
-     * @return the lastname
+     * @param classDescriptors the classDescriptors to set
      */
-    public String getLastname() {
-        return lastname;
-    }
-
-    /**
-     * @param lastname the lastname to set
-     */
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setClassDescriptors(Collection classDescriptors) {
+        this.classDescriptors = classDescriptors;
     }
 }

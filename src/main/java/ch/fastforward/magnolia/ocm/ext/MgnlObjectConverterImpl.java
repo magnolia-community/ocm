@@ -31,10 +31,10 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.ext;
+package ch.fastforward.magnolia.ocm.ext;
 
 import info.magnolia.cms.core.Content;
-import info.magnolia.module.ocm.util.MgnlOCMUtil;
+import ch.fastforward.magnolia.ocm.util.MgnlOCMUtil;
 import java.util.Stack;
 import javax.jcr.AccessDeniedException;
 import javax.jcr.ItemExistsException;

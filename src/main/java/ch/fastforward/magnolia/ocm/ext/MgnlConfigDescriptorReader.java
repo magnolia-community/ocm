@@ -31,75 +31,37 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.beans;
+package ch.fastforward.magnolia.ocm.ext;
 
-import org.apache.commons.lang.StringUtils;
+import ch.fastforward.magnolia.ocm.OCMModule;
+import java.util.Iterator;
+import org.apache.jackrabbit.ocm.mapper.DescriptorReader;
+import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
+import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
 
 /**
  *
  * @author will
  */
-public abstract class OCMBean {
+public class MgnlConfigDescriptorReader implements DescriptorReader {
 
-    private String parentPath;
-    private String uuid;
-    private String name;
-
-    public OCMBean() {
-    }
 
     /**
-     * @return the path
+     * Turns the Collection of ClassDescriptor objects stored in the CRUDModule
+     * into a MappingDescriptor.
+     * 
+     * @return MappingDescritor object containing the ClassDescriptors stored
+     * in config:/modules/ocm/config/classDescriptors
+     * @todo Expand this method so that it actually reads the config tree and
+     * builds the ClassDescriptor objects so that we don't have to rely on
+     * Content2Bean to do it and therefore can get rid of "class" properties.
      */
-    public String getPath() {
-        return getParentPath() + "/" + getName();
-    }
-
-    public void setPath(String path) {
-        if (StringUtils.isNotBlank(path)) {
-            setParentPath(StringUtils.substringBeforeLast(path, "/"));
+    public MappingDescriptor loadClassDescriptors() {
+        MappingDescriptor mappingDescriptor = new MappingDescriptor();
+        Iterator<ClassDescriptor> classDescriptors = OCMModule.getModuleConfig().getClassDescriptors().iterator();
+        while (classDescriptors.hasNext()) {
+            mappingDescriptor.addClassDescriptor(classDescriptors.next());
         }
-    }
-
-    /**
-     * @return the uuid
-     */
-    public String getUuid() {
-        return uuid;
-    }
-
-    /**
-     * @param uuid the uuid to set
-     */
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the parentPath
-     */
-    public String getParentPath() {
-        return parentPath;
-    }
-
-    /**
-     * @param parentPath the parentPath to set
-     */
-    public void setParentPath(String parentPath) {
-        this.parentPath = parentPath;
+        return mappingDescriptor;
     }
 }

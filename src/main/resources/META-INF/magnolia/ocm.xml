@@ -3,8 +3,8 @@
 <module>
   <name>ocm</name>
   <displayName>Jackrabbit OCM module : magnolia-module-ocm</displayName>
-  <class>info.magnolia.module.ocm.OCMModule</class>
-  <versionHandler>info.magnolia.module.ocm.OCMModuleVersionHandler</versionHandler>
+  <class>ch.fastforward.magnolia.ocm.OCMModule</class>
+  <versionHandler>ch.fastforward.magnolia.ocm.OCMModuleVersionHandler</versionHandler>
   <version>1.0-SNAPSHOT</version>
   
   <dependencies>

@@ -31,9 +31,9 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.samples;
+package ch.fastforward.magnolia.ocm.samples;
 
-import info.magnolia.module.ocm.beans.OCMNumberedBean;
+import ch.fastforward.magnolia.ocm.beans.OCMNumberedBean;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;

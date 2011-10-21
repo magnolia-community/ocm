@@ -31,7 +31,7 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm;
+package ch.fastforward.magnolia.ocm;
 
 import info.magnolia.module.DefaultModuleVersionHandler;
 import info.magnolia.module.InstallContext;

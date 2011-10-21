@@ -31,7 +31,7 @@
  * intact.
  *
  */
-package info.magnolia.module.ocm.util;
+package ch.fastforward.magnolia.ocm.util;
 
 import info.magnolia.cms.core.Content;
 import info.magnolia.cms.core.HierarchyManager;
