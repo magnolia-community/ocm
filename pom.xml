@@ -1,79 +1,79 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>info.magnolia.forge</groupId>
+    <artifactId>magnolia-parent-pom-forge</artifactId>
+    <version>19</version>
+  </parent>
   <groupId>ch.fastforward</groupId>
   <artifactId>magnolia-module-ocm</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>Magnolia Jackrabbit OCM module</name>
-  <url>http://www.fastforward.ch</url>
-    <properties>
-        <magnoliaVersion>4.2.3</magnoliaVersion>
-		<javaVersion>1.5</javaVersion>
-        <documentationURL></documentationURL>
-    </properties>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <dependencies>
+  <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>
+  <properties>
+    <magnoliaVersion>4.2.3</magnoliaVersion>
+    <javaVersion>1.5</javaVersion>
+    <!-- dual licensed : -->
+    <checkstyleHeader>magnolia-build-tools/license-header-dual.regex</checkstyleHeader>
+    <magnoliaBuildToolsArtifactId>magnolia-build-tools-dual-licensed</magnoliaBuildToolsArtifactId>
+    <magnoliaLicenseStyle>dual</magnoliaLicenseStyle>
+  </properties>
+  <licenses>
+    <license>
+      <name>GPLv3</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+    </license>
+    <license>
+      <name>Magnolia Network Agreement</name>
+      <url>http://www.magnolia-cms.com/mna.html</url>
+    </license>
+  </licenses>
+  <issueManagement>
+    <system>Jira</system>
+    <url>http://jira.magnolia-cms.com/browse/MJROCM</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:svn:http://svn.magnolia-cms.com/svn/forge/magnolia-module-ocm/trunk</connection>
+    <developerConnection>scm:svn:http://svn.magnolia-cms.com/svn/forge/magnolia-module-ocm/trunk</developerConnection>
+    <url>http://svn.magnolia-cms.com/view/forge/magnolia-module-ocm/trunk</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-ocm</artifactId>
+      <version>1.5.3</version>
+      <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>info.magnolia</groupId>
       <artifactId>magnolia-core</artifactId>
       <version>${magnoliaVersion}</version>
       <scope>provided</scope>
     </dependency>
-            <dependency>
-            <groupId>info.magnolia</groupId>
-            <artifactId>magnolia-module-admininterface</artifactId>
-            <version>${magnoliaVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-<dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-ocm</artifactId>
-        <version>1.5.3</version>
-        <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>info.magnolia</groupId>
-            <artifactId>magnolia-module-data</artifactId>
-            <version>1.4.2</version>
-            <type>jar</type>
-        </dependency>
-    </dependencies>
-
-  <repositories>
-    <repository>
-      <id>magnolia.public</id>
-      <url>http://nexus.magnolia-cms.com/content/groups/public</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>magnolia.forge.releases</id>
-      <url>http://nexus.magnolia-cms.com/content/repositories/magnolia.forge.releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>magnolia.forge.snapshots</id>
-      <url>http://nexus.magnolia-cms.com/content/repositories/magnolia.forge.snapshots</url>
-    </snapshotRepository>
-    <site>
-      <id>magnolia.forge.sites</id>
-      <url>dav:http://nexus.magnolia-cms.com/content/sites/magnolia.forge.sites/${project.groupId}/${project.artifactId}/${project.version}</url>
-    </site>
-  </distributionManagement>
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-module-admininterface</artifactId>
+      <version>${magnoliaVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-module-data</artifactId>
+      <version>1.4.2</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
 
 </project>
