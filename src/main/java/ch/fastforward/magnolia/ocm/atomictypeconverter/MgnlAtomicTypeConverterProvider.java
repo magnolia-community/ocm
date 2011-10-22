@@ -31,18 +31,27 @@
  * intact.
  *
  */
-package ch.fastforward.magnolia.ocm.ext;
+package ch.fastforward.magnolia.ocm.atomictypeconverter;
 
-import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.jackrabbit.ocm.manager.atomictypeconverter.impl.DefaultAtomicTypeConverterProvider;
 
 /**
- * Config mapper implementation for configurations stored in the Magnolia config tree.
+ * Registers the additional or modified atomic type converters for BigDecimals and Calendars.
  * @author will
  */
-public class MgnlConfigMapperImpl extends AbstractMapperImpl {
+public class MgnlAtomicTypeConverterProvider extends DefaultAtomicTypeConverterProvider {
 
-    public MgnlConfigMapperImpl() {
-        this.descriptorReader = new MgnlConfigDescriptorReader();
-        this.buildMapper();
+    @Override
+    protected Map registerDefaultAtomicTypeConverters() {
+        HashMap converters = new HashMap(super.registerDefaultAtomicTypeConverters());
+        converters.put(BigDecimal.class, BigDecimalToDoubleConverterImpl.class);
+        converters.put(Calendar.class, CalendarTypeConverterImpl.class);
+        converters.put(GregorianCalendar.class, CalendarTypeConverterImpl.class);
+        return converters;
     }
 }

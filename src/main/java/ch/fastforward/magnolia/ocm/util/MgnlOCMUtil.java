@@ -44,10 +44,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * A (currently very small) collection of useful methods when using OCM.
  * @author will
  */
 public class MgnlOCMUtil {
+
     private static Logger log = LoggerFactory.getLogger(MgnlOCMUtil.class);
 
     public static Content getClassDescriptorNode(Object object) {

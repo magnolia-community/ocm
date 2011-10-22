@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- *
+ * A sample press release bean.
  * @author will
  */
 public class PressRelease extends OCMNumberedBean {

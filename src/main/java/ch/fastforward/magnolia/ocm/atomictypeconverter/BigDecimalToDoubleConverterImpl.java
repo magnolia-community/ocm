@@ -31,18 +31,39 @@
  * intact.
  *
  */
-package ch.fastforward.magnolia.ocm.ext;
+package ch.fastforward.magnolia.ocm.atomictypeconverter;
 
-import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
+import java.math.BigDecimal;
+import javax.jcr.RepositoryException;
+import javax.jcr.Value;
+import javax.jcr.ValueFactory;
+import org.apache.jackrabbit.ocm.exception.IncorrectAtomicTypeException;
+import org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter;
 
 /**
- * Config mapper implementation for configurations stored in the Magnolia config tree.
+ * Converts BigDecimals to Doubles when persisting an object in JCR.
+ * @see org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter
  * @author will
  */
-public class MgnlConfigMapperImpl extends AbstractMapperImpl {
+public class BigDecimalToDoubleConverterImpl implements AtomicTypeConverter {
 
-    public MgnlConfigMapperImpl() {
-        this.descriptorReader = new MgnlConfigDescriptorReader();
-        this.buildMapper();
+    public Value getValue(ValueFactory valueFactory, Object propValue) {
+        if (propValue == null) {
+            return null;
+        }
+        return valueFactory.createValue(((java.math.BigDecimal) propValue).doubleValue());
+    }
+
+    public Object getObject(Value value) {
+        try {
+            double val = value.getDouble();
+            return new BigDecimal("" + val);
+        } catch (RepositoryException e) {
+            throw new IncorrectAtomicTypeException("Impossible to convert the value : " + value.toString(), e);
+        }
+    }
+
+    public String getXPathQueryValue(ValueFactory vf, Object object) {
+        return object.toString();
     }
 }

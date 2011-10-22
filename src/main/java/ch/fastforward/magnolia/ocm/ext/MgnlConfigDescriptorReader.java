@@ -40,11 +40,11 @@ import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
 import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
 
 /**
- *
+ * Allows OCM class descriptors to be stored in the Magnolia config tree instead
+ * of the standard mechanisms (XML and annotations).
  * @author will
  */
 public class MgnlConfigDescriptorReader implements DescriptorReader {
-
 
     /**
      * Turns the Collection of ClassDescriptor objects stored in the CRUDModule

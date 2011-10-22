@@ -52,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * The AdminInterface page to run the OCM sample.
  * @author will
  */
 public class OCMTest extends TemplatedMVCHandler {

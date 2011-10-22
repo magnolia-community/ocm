@@ -36,7 +36,7 @@ package ch.fastforward.magnolia.ocm.samples;
 import ch.fastforward.magnolia.ocm.beans.OCMBean;
 
 /**
- *
+ * A sample URL bean.
  * @author will
  */
 public class URL extends OCMBean {

@@ -43,7 +43,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * The OCMNumberedBean is an OCMBean which has a number for its name. When persisted
+ * without a name explicitly given to it, it will automatically get the next number
+ * from the class descriptor configuration. This is very useful for situations where
+ * new nodes are constantly being created (i.e. shopping carts).
+ * 
  * @author will
  */
 public class OCMNumberedBean extends OCMBean {

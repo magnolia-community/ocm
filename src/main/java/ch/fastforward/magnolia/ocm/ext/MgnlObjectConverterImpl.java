@@ -58,6 +58,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Extension of the standard ObjectConverter with the additional feature that it
+ * will try to create the parent node structure on inserts.
  *
  * @author will
  */

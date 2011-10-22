@@ -36,7 +36,8 @@ package ch.fastforward.magnolia.ocm.beans;
 import org.apache.commons.lang.StringUtils;
 
 /**
- *
+ * The OCMBean is the standard bean for persistence purposes with OCM. It contains
+ * the basic info which every node should have: uuid, name and parent path.
  * @author will
  */
 public abstract class OCMBean {

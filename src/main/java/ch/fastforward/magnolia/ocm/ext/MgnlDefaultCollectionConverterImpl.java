@@ -67,7 +67,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Converts Collections to node structures.
  * @author will
  */
 public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConverterImpl {
@@ -197,21 +197,23 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
 
         while (children.hasNext()) {
             Node itemNode = children.nextNode();
-            try {
-                Object item = objectConverter.getObject(session, elementClass, itemNode.getPath());
-                if (item instanceof OCMBean) {
-                    if (StringUtils.isBlank(((OCMBean) item).getName())) {
-                        ((OCMBean) item).setName(itemNode.getName());
+            if (!itemNode.isNodeType("mgnl:metaData")) {
+                try {
+                    Object item = objectConverter.getObject(session, elementClass, itemNode.getPath());
+                    if (item instanceof OCMBean) {
+                        if (StringUtils.isBlank(((OCMBean) item).getName())) {
+                            ((OCMBean) item).setName(itemNode.getName());
+                        }
+                        log.debug("Item " + ((OCMBean) item).getName() + " retrieved");
                     }
-                    log.debug("Item " + ((OCMBean) item).getName() + " retrieved");
+                    if (objects instanceof ManageableCollection) {
+                        ((ManageableCollection) objects).addObject(item);
+                    } else {
+                        ((ManageableMap) objects).addObject(itemNode.getName(), item);
+                    }
+                } catch (ObjectContentManagerException ex) {
+                    log.debug("Could not get object for node " + itemNode.getPath());
                 }
-                if (objects instanceof ManageableCollection) {
-                    ((ManageableCollection) objects).addObject(item);
-                } else {
-                    ((ManageableMap) objects).addObject(itemNode.getName(), item);
-                }
-            } catch (ObjectContentManagerException ex) {
-                log.debug("Could not get object for node " + itemNode.getPath());
             }
 
         }

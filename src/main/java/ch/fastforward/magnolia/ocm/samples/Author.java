@@ -36,10 +36,11 @@ package ch.fastforward.magnolia.ocm.samples;
 import ch.fastforward.magnolia.ocm.beans.OCMBean;
 
 /**
- *
+ * A sample author bean.
  * @author will
  */
 public class Author extends OCMBean {
+
     private String firstname;
     private String lastname;
     private String email;
