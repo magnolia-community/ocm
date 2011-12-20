@@ -2,10 +2,10 @@
 <!DOCTYPE module SYSTEM "module.dtd" >
 <module>
   <name>ocm</name>
-  <displayName>Jackrabbit OCM module : magnolia-module-ocm</displayName>
+  <displayName>${project.name}</displayName>
   <class>ch.fastforward.magnolia.ocm.OCMModule</class>
   <versionHandler>ch.fastforward.magnolia.ocm.OCMModuleVersionHandler</versionHandler>
-  <version>1.0-SNAPSHOT</version>
+  <version>${project.version}</version>
   
   <dependencies>
     <dependency>
