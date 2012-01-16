@@ -34,6 +34,7 @@
 package ch.fastforward.magnolia.ocm.ext;
 
 import ch.fastforward.magnolia.ocm.beans.OCMBean;
+import info.magnolia.context.MgnlContext;
 import java.util.Iterator;
 import java.util.Map;
 import javax.jcr.ItemExistsException;
@@ -97,10 +98,16 @@ public class MgnlUUIDListCollectionConverter extends MgnlDefaultCollectionConver
         Class elementClass = ReflectionUtils.forName(collectionDescriptor.getElementClassName());
 
 //        while (children.hasNext()) {
-        String targetWorkspaceName = "data";
+        String targetWorkspaceName = parentNode.getSession().getWorkspace().getName();
+        if (collectionDescriptor instanceof MgnlTargetRepositoryAwareCollectionDescriptor) {
+            if (StringUtils.isNotBlank(((MgnlTargetRepositoryAwareCollectionDescriptor) collectionDescriptor).getTargetRepositoryName())) {
+                targetWorkspaceName = ((MgnlTargetRepositoryAwareCollectionDescriptor) collectionDescriptor).getTargetRepositoryName();
+            }
+        }
         Session targetWorkspaceSession = session;
         if (!session.getWorkspace().getName().equals(targetWorkspaceName)) {
             // @TODO: get the session to access the target workspace
+            targetWorkspaceSession = MgnlContext.getHierarchyManager(targetWorkspaceName).getWorkspace().getSession();
         }
         Property currProp;
         while (properties.hasNext()) {
@@ -109,7 +116,7 @@ public class MgnlUUIDListCollectionConverter extends MgnlDefaultCollectionConver
             if (currProp.getName().startsWith("jcr:")) {
                 // skip the jcr properties like uuid, primaryType etc.
             } else {
-                Node itemNode = session.getNodeByUUID(currProp.getString());
+                Node itemNode = targetWorkspaceSession.getNodeByUUID(currProp.getString());
                 if (itemNode != null) {
                     try {
                         Object item = objectConverter.getObject(targetWorkspaceSession, elementClass, itemNode.getPath());
