@@ -99,6 +99,8 @@ public class OCMNumberedBean extends OCMBean {
             } catch (NumberFormatException nfe) {
                 log.debug("Illegal name for " + this.getClass().getName() + " object");
             }
+        } else {
+            this.number = null;
         }
     }
 }
