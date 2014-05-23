@@ -96,7 +96,7 @@ public class OCMTest extends TemplatedMVCHandler {
         author.setEmail("willscheidegger@mac.com");
         pr.setAuthor(author);
         pr.addToUrls(new URL("http://www.fastforward.ch", "fastforward websolutions", "Custom websites for demanding customers"));
-        pr.addToUrls(new URL("http://www.schneestärn.ch", "schneestärn.ch", "Sportive and relaxed moments in the snow"));
+        pr.addToUrls(new URL("http://www.schneest√§rn.ch", "schneest√§rn.ch", "Sportive and relaxed moments in the snow"));
         ocm.insert(pr);
         ocm.save();
 
