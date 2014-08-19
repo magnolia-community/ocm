@@ -89,7 +89,7 @@ public class OCMTest extends TemplatedMVCHandler {
                 + "solve these problems - except that OCM has its share of "
                 + "problems too...");
         pr.setRating((double) 3.1234);
-        pr.setImpressions(0);
+        pr.setImpressions(new Long(0));
         Author author = new Author();
         author.setFirstname("Will");
         author.setLastname("Scheidegger");
