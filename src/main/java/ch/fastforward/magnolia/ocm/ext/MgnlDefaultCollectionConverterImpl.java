@@ -68,6 +68,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Converts Collections to node structures.
+ *
  * @author will
  */
 public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConverterImpl {
@@ -82,7 +83,8 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
     }
 
     /**
-     * @see AbstractCollectionConverterImpl#doInsertCollection(Session, Node, CollectionDescriptor, ManageableCollection)
+     * @see AbstractCollectionConverterImpl#doInsertCollection(Session, Node,
+     * CollectionDescriptor, ManageableCollection)
      */
     @Override
     protected void doInsertCollection(Session session,
@@ -170,7 +172,6 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
 
     private void insertManageableMap(Session session, ManageableObjects objects, Node collectionNode) {
 
-
         Map map = (Map) objects.getObjects();
         for (Object key : map.keySet()) {
             Object item = map.get(key);
@@ -224,7 +225,9 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
     /**
      * Exact copy of DefaultCollectionConverterImpl.doUpdateCollection(), only
      * needed because it calls private methods that needed to be adapted...
-     * @see AbstractCollectionConverterImpl#doUpdateCollection(Session, Node, CollectionDescriptor, ManageableCollection)
+     *
+     * @see AbstractCollectionConverterImpl#doUpdateCollection(Session, Node,
+     * CollectionDescriptor, ManageableCollection)
      */
     @Override
     protected void doUpdateCollection(Session session,
@@ -261,6 +264,7 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
      * Same as in super class except that this implementation does not delete
      * element nodes that are defined as mandatory child nodes to the collection
      * node.
+     *
      * @param session
      * @param parentNode
      * @param collectionDescriptor
@@ -294,12 +298,20 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
         List<String> validUuidsForTheNode = new ArrayList<String>();
         while (collectionIterator.hasNext()) {
             Object item = collectionIterator.next();
-            String elementJcrName = null;
+            String jcrElementName = null;
 
             if (elementClassDescriptor.hasUUIdField()) {
                 // @TODO: look for a name attribute or getName() field in the item
-                elementJcrName = collectionDescriptor.getJcrElementName();
-                elementJcrName = (elementJcrName == null) ? COLLECTION_ELEMENT_NAME : elementJcrName;
+                jcrElementName = collectionDescriptor.getJcrElementName();
+                if (jcrElementName != null) {
+                    // look for a name propery
+                    Object nameProperty = ReflectionUtils.getNestedProperty(item, jcrElementName);
+                    String name = (nameProperty == null) ? null : nameProperty.toString();
+                    if (StringUtils.isNotBlank(name)) {
+                        jcrElementName = name;
+                    }
+                }
+                jcrElementName = (jcrElementName == null) ? COLLECTION_ELEMENT_NAME : jcrElementName;
                 String uuidFieldName = elementClassDescriptor.getUuidFieldDescriptor().getFieldName();
                 Object objUuid = ReflectionUtils.getNestedProperty(item, uuidFieldName);
                 String currentItemUuid = (objUuid == null) ? null : objUuid.toString();
@@ -310,30 +322,30 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
                     objectConverter.update(session, currentItemUuid, item);
                     validUuidsForTheNode.add(currentItemUuid);
                 } else {
-                    objectConverter.insert(session, collectionNode, elementJcrName, item);
+                    objectConverter.insert(session, collectionNode, jcrElementName, item);
                     validUuidsForTheNode.add(ReflectionUtils.getNestedProperty(item, uuidFieldName).toString());
                 }
 
             } else if (elementClassDescriptor.hasIdField()) {
 
                 String idFieldName = elementClassDescriptor.getIdFieldDescriptor().getFieldName();
-                elementJcrName = ReflectionUtils.getNestedProperty(item, idFieldName).toString();
+                jcrElementName = ReflectionUtils.getNestedProperty(item, idFieldName).toString();
 
                 // Update existing JCR Nodes
-                if (collectionNode.hasNode(elementJcrName)) {
-                    objectConverter.update(session, collectionNode, elementJcrName, item);
+                if (collectionNode.hasNode(jcrElementName)) {
+                    objectConverter.update(session, collectionNode, jcrElementName, item);
                 } else {
                     // Add new collection elements
-                    objectConverter.insert(session, collectionNode, elementJcrName, item);
+                    objectConverter.insert(session, collectionNode, jcrElementName, item);
                 }
 
-                updatedItems.put(elementJcrName, item);
+                updatedItems.put(jcrElementName, item);
             } else {
-                elementJcrName = collectionDescriptor.getJcrElementName();
-                if (elementJcrName == null) { // use PathFormat.checkFormat() here?
-                    elementJcrName = COLLECTION_ELEMENT_NAME;
+                jcrElementName = collectionDescriptor.getJcrElementName();
+                if (jcrElementName == null) { // use PathFormat.checkFormat() here?
+                    jcrElementName = COLLECTION_ELEMENT_NAME;
                 }
-                objectConverter.insert(session, collectionNode, elementJcrName, item);
+                objectConverter.insert(session, collectionNode, jcrElementName, item);
             }
         }
 
