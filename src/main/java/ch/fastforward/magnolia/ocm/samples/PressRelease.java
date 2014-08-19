@@ -48,7 +48,7 @@ public class PressRelease extends OCMNumberedBean {
     private Date date;
     private String content;
     private Double rating;
-    private long impressions;
+    private Long impressions;
     private Author author;
     private Collection<URL> urls;
 
@@ -125,14 +125,14 @@ public class PressRelease extends OCMNumberedBean {
     /**
      * @return the impressions
      */
-    public long getImpressions() {
+    public Long getImpressions() {
         return impressions;
     }
 
     /**
      * @param impressions the impressions to set
      */
-    public void setImpressions(long impressions) {
+    public void setImpressions(Long impressions) {
         this.impressions = impressions;
     }
 
