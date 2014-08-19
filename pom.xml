@@ -8,12 +8,12 @@
     <groupId>ch.fastforward</groupId>
     <artifactId>magnolia-module-ocm</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>Magnolia Jackrabbit OCM module</name>
-    <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>
+<!--    <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>-->
     <properties>
-        <magnoliaVersion>4.2.3</magnoliaVersion>
-        <javaVersion>1.5</javaVersion>
+        <magnoliaVersion>4.5.6</magnoliaVersion>
+        <javaVersion>1.6</javaVersion>
         <!-- dual licensed : -->
         <checkstyleHeader>magnolia-build-tools/license-header-dual.regex</checkstyleHeader>
         <magnoliaBuildToolsArtifactId>magnolia-build-tools-dual-licensed</magnoliaBuildToolsArtifactId>
@@ -33,16 +33,16 @@
         <system>Jira</system>
         <url>http://jira.magnolia-cms.com/browse/MJROCM</url>
     </issueManagement>
-    <scm>
+<!--    <scm>
         <connection>scm:svn:http://svn.magnolia-cms.com/svn/forge/magnolia-module-ocm/trunk</connection>
         <developerConnection>scm:svn:http://svn.magnolia-cms.com/svn/forge/magnolia-module-ocm/trunk</developerConnection>
         <url>http://svn.magnolia-cms.com/view/forge/magnolia-module-ocm/trunk</url>
-    </scm>
+    </scm>-->
     <dependencies>
         <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
+            <groupId>org.apache</groupId>
             <artifactId>jackrabbit-ocm</artifactId>
-            <version>1.5.3</version>
+            <version>2.0.0</version>
             <type>jar</type>
             <exclusions>
                 <exclusion>
@@ -86,7 +86,14 @@
         <dependency>
             <groupId>info.magnolia</groupId>
             <artifactId>magnolia-module-data</artifactId>
-            <version>1.4.2</version>
+            <version>1.7.3</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
