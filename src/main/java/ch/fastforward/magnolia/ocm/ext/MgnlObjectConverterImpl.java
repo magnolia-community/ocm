@@ -35,6 +35,7 @@ package ch.fastforward.magnolia.ocm.ext;
 
 import info.magnolia.cms.core.Content;
 import ch.fastforward.magnolia.ocm.util.MgnlOCMUtil;
+import java.io.Serializable;
 import java.util.Stack;
 import javax.jcr.AccessDeniedException;
 import javax.jcr.ItemExistsException;
@@ -49,7 +50,7 @@ import javax.jcr.version.VersionException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.ocm.exception.ObjectContentManagerException;
 import org.apache.jackrabbit.ocm.manager.atomictypeconverter.impl.DefaultAtomicTypeConverterProvider;
-import org.apache.jackrabbit.ocm.manager.cache.impl.RequestObjectCacheImpl;
+import org.apache.jackrabbit.ocm.manager.cache.ObjectCache;
 import org.apache.jackrabbit.ocm.manager.objectconverter.impl.ObjectConverterImpl;
 import org.apache.jackrabbit.ocm.manager.objectconverter.impl.ProxyManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -63,11 +64,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author will
  */
-public class MgnlObjectConverterImpl extends ObjectConverterImpl {
+public class MgnlObjectConverterImpl extends ObjectConverterImpl implements Serializable {
 
     private static Logger log = LoggerFactory.getLogger(MgnlObjectConverterImpl.class);
 
-    public MgnlObjectConverterImpl(Mapper mapper, DefaultAtomicTypeConverterProvider converterProvider, ProxyManagerImpl proxyManagerImpl, RequestObjectCacheImpl requestObjectCache) {
+    public MgnlObjectConverterImpl(Mapper mapper, DefaultAtomicTypeConverterProvider converterProvider, ProxyManagerImpl proxyManagerImpl, ObjectCache requestObjectCache) {
         super(mapper, converterProvider, proxyManagerImpl, requestObjectCache);
 //        throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -76,6 +77,8 @@ public class MgnlObjectConverterImpl extends ObjectConverterImpl {
      * Works exactly as the method in the superclass except that it will try to
      * create missing parent nodes if a parentJcrType is provided in the class
      * descriptor.
+     * @param session
+     * @param object
      * @see org.apache.jackrabbit.ocm.manager.objectconverter.ObjectConverter#insert(javax.jcr.Session,
      *      java.lang.Object)
      */
