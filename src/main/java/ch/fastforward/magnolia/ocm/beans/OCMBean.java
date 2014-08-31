@@ -33,6 +33,7 @@
  */
 package ch.fastforward.magnolia.ocm.beans;
 
+import java.io.Serializable;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -40,7 +41,7 @@ import org.apache.commons.lang.StringUtils;
  * the basic info which every node should have: uuid, name and parent path.
  * @author will
  */
-public abstract class OCMBean {
+public abstract class OCMBean implements Serializable {
 
     private String parentPath;
     private String uuid;
