@@ -8,9 +8,9 @@
     <groupId>ch.fastforward</groupId>
     <artifactId>magnolia-module-ocm</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.1.0</version>
     <name>Magnolia Jackrabbit OCM module</name>
-<!--    <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>-->
+    <!--    <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>-->
     <properties>
         <magnoliaVersion>4.5.6</magnoliaVersion>
         <javaVersion>1.6</javaVersion>
@@ -33,11 +33,16 @@
         <system>Jira</system>
         <url>http://jira.magnolia-cms.com/browse/MJROCM</url>
     </issueManagement>
-<!--    <scm>
+    <!--    <scm>
         <connection>scm:svn:http://svn.magnolia-cms.com/svn/forge/magnolia-module-ocm/trunk</connection>
         <developerConnection>scm:svn:http://svn.magnolia-cms.com/svn/forge/magnolia-module-ocm/trunk</developerConnection>
         <url>http://svn.magnolia-cms.com/view/forge/magnolia-module-ocm/trunk</url>
     </scm>-->
+    <scm>
+        <connection>scm:git:http://git.magnolia-cms.com/forge/ocm</connection>
+        <developerConnection>scm:git:https://git.magnolia-cms.com/forge/ocm</developerConnection>
+        <url>http://git.magnolia-cms.com/gitweb/?p=forge/ocm.git</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.apache</groupId>
