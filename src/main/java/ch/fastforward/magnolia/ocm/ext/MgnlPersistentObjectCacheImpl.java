@@ -34,34 +34,76 @@
 package ch.fastforward.magnolia.ocm.ext;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.jackrabbit.ocm.manager.cache.ObjectCache;
 import org.apache.jackrabbit.ocm.manager.cache.impl.RequestObjectCacheImpl;
 
 /**
  * This implementation of {@link ObjectCache} will ignore calls to clear(). This
- * should prevent objects to get get loaded multiple times. In case you need to 
+ * should prevent objects to get get loaded multiple times. In case you need to
  * clear the cache use clearPersistantCache().
+ *
  * @author will
  */
-public class MgnlPersistentObjectCacheImpl extends RequestObjectCacheImpl implements ObjectCache, Serializable {
-    
-    /**
+public class MgnlPersistentObjectCacheImpl extends RequestObjectCacheImpl implements ObjectCache, MgnlPersistentObjectCache, Serializable {
+
+    private Map persistantCachedObjects = new HashMap();
+
+    /*
      * Does NOT clear the cache as duplicate objects will be created next time
      * you're loading them. Use {@link clearPersistanceCache()} to really clear
      * the cache if you need to.
      */
-    @Override
-    public void clear() {
-        // do NOT clear the cache!
-    }
-    
+    /*    @Override
+     public void clear() {
+     // do NOT clear the cache!
+     }*/
     /**
-     * This really clears the cache. It's probably better to simply add the 
+     * Caches an object both in the request cache and the persistent cache.
+     *
+     * @param path
+     * @param object
+     */
+    @Override
+    public void cache(String path, Object object) {
+        persistantCachedObjects.put(path, object);
+        super.cache(path, object);
+    }
+
+    /**
+     * This really clears the cache. It's probably better to simply add the
      * caches to the users servlet session so that they will be deleted when the
      * session expires.
      */
     public void clearPersistantCache() {
         super.clear();
+        persistantCachedObjects.clear();
     }
-    
+
+    /**
+     * Gets object from the persistent cache.
+     *
+     * @param path
+     * @return
+     */
+    @Override
+    public Object getObject(String path) {
+        return persistantCachedObjects.get(path);
+    }
+
+    /**
+     * Checks if the object exists in the persistent cache. If you want to know
+     * if the object is in the request cache use isRequestCached().
+     * @param path
+     * @return
+     */
+    @Override
+    public boolean isCached(String path) {
+        return persistantCachedObjects.containsKey(path);
+    }
+
+    public boolean isRequestCached(String path) {
+        return (super.isCached(path));
+    }
 }
