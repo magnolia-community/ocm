@@ -36,7 +36,11 @@ package ch.fastforward.magnolia.ocm;
 import info.magnolia.module.DefaultModuleVersionHandler;
 import info.magnolia.module.InstallContext;
 import info.magnolia.module.data.setup.RegisterNodeTypeTask;
+import info.magnolia.module.delta.DeltaBuilder;
+import info.magnolia.module.delta.NodeExistsDelegateTask;
+import info.magnolia.module.delta.RemoveNodeTask;
 import info.magnolia.module.delta.Task;
+import info.magnolia.repository.RepositoryConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +56,12 @@ public class OCMModuleVersionHandler extends DefaultModuleVersionHandler {
 //
 //        register(updateDelta);
         super();
+        register(DeltaBuilder.checkPrecondition("1.0", ""));
+
+        register(DeltaBuilder.update("1.2", "")
+            .addTask(new NodeExistsDelegateTask("Remove /modules/data/dialogs/ocmSamplePressRelease node","", RepositoryConstants.CONFIG, "/modules/data/dialogs/ocmSamplePressRelease", new RemoveNodeTask("Remove /modules/data/dialogs/ocmSamplePressRelease node", "", RepositoryConstants.CONFIG, "/modules/data/dialogs/ocmSamplePressRelease")))
+        );
+
     }
 
     /**
