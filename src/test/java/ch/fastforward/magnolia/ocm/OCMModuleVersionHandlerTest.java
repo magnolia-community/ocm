@@ -81,13 +81,29 @@ public class OCMModuleVersionHandlerTest extends ModuleVersionHandlerTestCase {
     @Test
     public void testUpdateTo12() throws Exception {
         // GIVEN
+        setupConfigNode("/modules/adminInterface/config/menu/data/ocmSamplePressRelease");
+        setupConfigNode("/modules/adminInterface/config/menu/tools/ocmTest");
+        setupConfigNode("/modules/data/config/types/ocmSamplePressRelease");
         setupConfigNode("/modules/data/dialogs/ocmSamplePressRelease");
+        setupConfigNode("/modules/data/trees/ocmSamplePressRelease");
+        setupConfigNode("/modules/ocm/config/classDescriptors/PressRelease");
+        setupConfigNode("/modules/ocm/config/classDescriptors/Author");
+        setupConfigNode("/modules/ocm/config/classDescriptors/URL");
+        setupConfigNode("/modules/ocm/pages");
 
         // WHEN
-        executeUpdatesAsIfTheCurrentlyInstalledVersionWas(Version.parseVersion("1.1.1"));
+        executeUpdatesAsIfTheCurrentlyInstalledVersionWas(Version.parseVersion("1.1.0"));
 
         // THEN
+        assertFalse(config.nodeExists("/modules/adminInterface/config/menu/data/ocmSamplePressRelease"));
+        assertFalse(config.nodeExists("/modules/adminInterface/config/menu/tools/ocmTest"));
+        assertFalse(config.nodeExists("/modules/data/config/types/ocmSamplePressRelease"));
         assertFalse(config.nodeExists("/modules/data/dialogs/ocmSamplePressRelease"));
+        assertFalse(config.nodeExists("/modules/data/trees/ocmSamplePressRelease"));
+        assertFalse(config.nodeExists("/modules/ocm/config/classDescriptors/PressRelease"));
+        assertFalse(config.nodeExists("/modules/ocm/config/classDescriptors/Author"));
+        assertFalse(config.nodeExists("/modules/ocm/config/classDescriptors/URL"));
+        assertFalse(config.nodeExists("/modules/ocm/pages"));
     }
 
 }
