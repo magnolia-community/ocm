@@ -126,6 +126,7 @@ public class OCMModuleVersionHandlerTest extends ModuleVersionHandlerTestCase {
         assertFalse(config.nodeExists("/modules/adminInterface/config/menu/data"));
         assertFalse(config.nodeExists("/modules/adminInterface/config/menu/tools/"));
         assertFalse(config.nodeExists("/modules/adminInterface/config/menu"));
+        assertFalse(config.nodeExists("/modules/adminInterface/config"));
         assertFalse(config.nodeExists("/modules/data/trees"));
     }
 
