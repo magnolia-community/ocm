@@ -35,6 +35,7 @@ package ch.fastforward.magnolia.ocm;
 
 import info.magnolia.module.DefaultModuleVersionHandler;
 import info.magnolia.module.delta.DeltaBuilder;
+import info.magnolia.module.delta.RemoveNodeWoChildren;
 import info.magnolia.module.delta.RemoveNodesTask;
 import info.magnolia.repository.RepositoryConstants;
 
@@ -62,6 +63,13 @@ public class OCMModuleVersionHandler extends DefaultModuleVersionHandler {
                                 "/modules/ocm/config/classDescriptors/URL",
                                 "/modules/ocm/pages"),
                         false))
+        );
+
+        register(DeltaBuilder.update("1.2.1", "")
+                .addTask(new RemoveNodeWoChildren("Remove empty data section node in legacy menu", "Remove empty data section in legacy menu", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu/data"))
+                .addTask(new RemoveNodeWoChildren("Remove empty tools section node in legacy menu", "Remove empty tools section in legacy menu", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu/tools"))
+                .addTask(new RemoveNodeWoChildren("Remove empty legacy menu node", "Remove empty legacy menu node", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu"))
+                .addTask(new RemoveNodeWoChildren("Remove empty legacy date trees node", "Remove empty legacy date trees node", RepositoryConstants.CONFIG, "/modules/data/trees/"))
         );
 
     }
