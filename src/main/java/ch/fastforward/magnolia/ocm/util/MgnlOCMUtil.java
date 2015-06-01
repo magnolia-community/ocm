@@ -33,15 +33,16 @@
  */
 package ch.fastforward.magnolia.ocm.util;
 
-import info.magnolia.cms.core.Content;
-import info.magnolia.cms.core.HierarchyManager;
-import info.magnolia.cms.core.search.Query;
 import info.magnolia.cms.security.AccessDeniedException;
 import info.magnolia.context.MgnlContext;
-import java.util.Iterator;
-import javax.jcr.RepositoryException;
+import info.magnolia.context.SystemContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jcr.Node;
+import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.query.QueryManager;
 
 /**
  * A (currently very small) collection of useful methods when using OCM.
@@ -50,24 +51,23 @@ import org.slf4j.LoggerFactory;
 public class MgnlOCMUtil {
 
     private static Logger log = LoggerFactory.getLogger(MgnlOCMUtil.class);
+    private static final String CONFIG_REPO = "config";
 
-    public static Content getClassDescriptorNode(Object object) {
+    public static Node getClassDescriptorNode(Object object) {
         if (object != null) {
-            return getClassDescriptorNode(object.getClass().getName());
+            return getClassDescriptorNode(object.getClass().getName(), MgnlContext.getSystemContext());
         } else {
             return null;
         }
     }
 
-    public static Content getClassDescriptorNode(String className) {
+    public static Node getClassDescriptorNode(String className, SystemContext sysCtx) {
         try {
-            HierarchyManager systemHm = MgnlContext.getSystemContext().getHierarchyManager("config");
             String queryString = "SELECT * FROM mgnl:contentNode WHERE jcr:path LIKE '/modules/ocm/config/classDescriptors/%' AND className = '" + className + "'";
-            Query q = systemHm.getQueryManager().createQuery(queryString, "sql");
-
-            Iterator<Content> classDescIter = q.execute().getContent("mgnl:contentNode").iterator(); // QueryUtil.query("config", queryString, "SQL", "mgnl:contentNode").iterator();
-            if (classDescIter.hasNext()) {
-                return classDescIter.next();
+            QueryManager qm = sysCtx.getJCRSession(CONFIG_REPO).getWorkspace().getQueryManager();
+            NodeIterator nodesIter = qm.createQuery(queryString, "sql").execute().getNodes();
+            if (nodesIter.hasNext()) {
+                return nodesIter.nextNode();
             } else {
                 log.error("No class descriptor node found for query \"" + queryString + "\"");
             }

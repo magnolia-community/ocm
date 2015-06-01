@@ -34,13 +34,14 @@
 package ch.fastforward.magnolia.ocm.beans;
 
 import ch.fastforward.magnolia.ocm.util.MgnlOCMUtil;
-import info.magnolia.cms.core.Content;
 import info.magnolia.cms.security.AccessDeniedException;
-import info.magnolia.cms.util.NodeDataUtil;
-import javax.jcr.RepositoryException;
+import info.magnolia.jcr.util.PropertyUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 
 /**
  * The OCMNumberedBean is an OCMBean which has a number for its name. When persisted
@@ -62,24 +63,28 @@ public class OCMNumberedBean extends OCMBean {
             // At this point simply get it form the class descriptor config node.
             // Later we should have the possibility to use a custom class
             // descriptor object which contains things like this.
-            Content classDescNode = MgnlOCMUtil.getClassDescriptorNode(this);
+            Node classDescNode = MgnlOCMUtil.getClassDescriptorNode(this);
             if (classDescNode != null) {
                 Long nextBeanID;
-                if (classDescNode.getNodeData("nextBeanID").isExist()) {
-                    nextBeanID = classDescNode.getNodeData("nextBeanID").getLong();
-                    try {
-                        NodeDataUtil.getOrCreateAndSet(classDescNode, "nextBeanID", nextBeanID + 1);
-                        classDescNode.updateMetaData();
-                        classDescNode.getParent().save();
-                        number = nextBeanID;
-                        return nextBeanID.toString();
-                    } catch (AccessDeniedException ex) {
-                        log.error("Could not access class descriptor node at " + classDescNode.getHandle(), ex);
-                    } catch (RepositoryException ex) {
-                        log.error("Could not access class descriptor node at " + classDescNode.getHandle(), ex);
+                try {
+                    if (classDescNode.hasProperty("nextBeanID")) {
+                        nextBeanID = classDescNode.getProperty("nextBeanID").getLong();
+                        try {
+                            PropertyUtil.setProperty(classDescNode, "nextBeanID", nextBeanID + 1);
+//                            classDescNode.updateMetaData();
+                            classDescNode.getParent().save();
+                            number = nextBeanID;
+                            return nextBeanID.toString();
+                        } catch (AccessDeniedException ex) {
+                            log.error("Could not access class descriptor node at " + classDescNode.getPath(), ex);
+                        } catch (RepositoryException ex) {
+                            log.error("Could not access class descriptor node at " + classDescNode.getPath(), ex);
+                        }
+                    } else {
+                        log.error("The class descriptor node at " + classDescNode.getPath() + " does not have a nextBeanID property.");
                     }
-                } else {
-                    log.error("The class descriptor node at " + classDescNode.getHandle() + " does not have a nextBeanID property.");
+                } catch (RepositoryException e) {
+                    log.error("Could not access classDescription node " + classDescNode, e);
                 }
             }
         } else {

@@ -34,26 +34,7 @@
 package ch.fastforward.magnolia.ocm.ext;
 
 import ch.fastforward.magnolia.ocm.util.MgnlOCMUtil;
-import info.magnolia.cms.core.Content;
-import java.io.Serializable;
-import java.lang.reflect.Modifier;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Stack;
-import javax.jcr.AccessDeniedException;
-import javax.jcr.ItemExistsException;
-import javax.jcr.Node;
-import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.ValueFormatException;
-import javax.jcr.lock.LockException;
-import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
-import javax.jcr.nodetype.NodeType;
-import javax.jcr.nodetype.NodeTypeManager;
-import javax.jcr.version.VersionException;
+import info.magnolia.jcr.util.PropertyUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException;
 import org.apache.jackrabbit.ocm.exception.JcrMappingException;
@@ -83,6 +64,26 @@ import org.apache.jackrabbit.ocm.reflection.ReflectionUtils;
 import org.apache.jackrabbit.ocm.repository.NodeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+import javax.jcr.AccessDeniedException;
+import javax.jcr.ItemExistsException;
+import javax.jcr.NodeIterator;
+import javax.jcr.Session;
+import javax.jcr.ValueFormatException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.nodetype.NodeType;
+import javax.jcr.nodetype.NodeTypeManager;
+import javax.jcr.version.VersionException;
+import java.io.Serializable;
+import java.lang.reflect.Modifier;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * Implementation of {@link ObjectConverter} which supports
@@ -175,65 +176,69 @@ public class MgnlNewObjectConverterImpl implements ObjectConverter, Serializable
         } catch (PathNotFoundException pnfe) {
             log.debug("Parent node at " + parentPath + " not found. Trying to create it...");
             // Look for parentJcrType in the class descriptor
-            Content classDescNode = MgnlOCMUtil.getClassDescriptorNode(object);
+            Node classDescNode = MgnlOCMUtil.getClassDescriptorNode(object);
             if (classDescNode == null) {
                 throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'", pnfe);
-            } else if (!classDescNode.getNodeData("parentJcrType").isExist()) {
-                throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
-                        + " Parent node does not exist and no parentJcrType is specified in classDescriptor");
-            } else {
-                // Get the closest existing parent node. Start at the branches to
-                // minimize the danger of access problems.
-                String currParentPath = parentPath;
-                String currName = StringUtils.substringAfterLast(currParentPath, "/");
-                Stack<String> pathElements = new Stack();
-                while (parentNode == null && parentPath.contains("/") && parentPath.length() > 1) {
-                    pathElements.push(currName);
-                    currParentPath = StringUtils.substringBeforeLast(currParentPath, "/");
-                    if (currParentPath.length() == 0) {
-                        currParentPath = "/";
-                    }
-                    currName = StringUtils.substringAfterLast(currParentPath, "/");
-                    try {
-                        parentNode = (Node) session.getItem(currParentPath);
-                    } catch (PathNotFoundException pnfe2) {
-                        // do nothing, just try again with the parent node
-                    } catch (AccessDeniedException ade) {
-                        throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
-                                + " Access denied on parent node at " + currParentPath, ade);
-                    } catch (RepositoryException re) {
-                        throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
-                                + " RepositoryException at " + currParentPath, re);
-                    }
-                }
-                if (parentNode != null) {
-                    // now create all the missing parent nodes
-                    String parentJcrType = classDescNode.getNodeData("parentJcrType").getString();
-                    while (!pathElements.isEmpty()) {
+            } else try {
+                if (!classDescNode.hasProperty("parentJcrType")) {
+                    throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
+                            + " Parent node does not exist and no parentJcrType is specified in classDescriptor");
+                } else {
+                    // Get the closest existing parent node. Start at the branches to
+                    // minimize the danger of access problems.
+                    String currParentPath = parentPath;
+                    String currName = StringUtils.substringAfterLast(currParentPath, "/");
+                    Stack<String> pathElements = new Stack();
+                    while (parentNode == null && parentPath.contains("/") && parentPath.length() > 1) {
+                        pathElements.push(currName);
+                        currParentPath = StringUtils.substringBeforeLast(currParentPath, "/");
+                        if (currParentPath.length() == 0) {
+                            currParentPath = "/";
+                        }
+                        currName = StringUtils.substringAfterLast(currParentPath, "/");
                         try {
-                            currName = pathElements.pop();
-                            parentNode = parentNode.addNode(currName, parentJcrType);
-                        } catch (NoSuchNodeTypeException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
-                        } catch (ItemExistsException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
-                        } catch (PathNotFoundException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
-                        } catch (LockException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
-                        } catch (VersionException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
-                        } catch (ConstraintViolationException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
-                        } catch (RepositoryException ex) {
-                            log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            parentNode = (Node) session.getItem(currParentPath);
+                        } catch (PathNotFoundException pnfe2) {
+                            // do nothing, just try again with the parent node
+                        } catch (AccessDeniedException ade) {
+                            throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
+                                    + " Access denied on parent node at " + currParentPath, ade);
+                        } catch (RepositoryException re) {
+                            throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
+                                    + " RepositoryException at " + currParentPath, re);
                         }
                     }
-                } else {
-                    // could not even find the root node?!
-                    throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
-                            + " Parent nodes do not exist.");
+                    if (parentNode != null) {
+                        // now create all the missing parent nodes
+                        String parentJcrType = PropertyUtil.getString(classDescNode, "parentJcrType");
+                        while (!pathElements.isEmpty()) {
+                            try {
+                                currName = pathElements.pop();
+                                parentNode = parentNode.addNode(currName, parentJcrType);
+                            } catch (NoSuchNodeTypeException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            } catch (ItemExistsException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            } catch (PathNotFoundException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            } catch (LockException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            } catch (VersionException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            } catch (ConstraintViolationException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            } catch (RepositoryException ex) {
+                                log.error("Could not create parent node at " + parentNode + " with name " + currName, ex);
+                            }
+                        }
+                    } else {
+                        // could not even find the root node?!
+                        throw new ObjectContentManagerException("Impossible to insert the object at '" + path + "'."
+                                + " Parent nodes do not exist.");
+                    }
                 }
+            } catch (RepositoryException e) {
+                e.printStackTrace();
             }
         } catch (RepositoryException re) {
             throw new org.apache.jackrabbit.ocm.exception.RepositoryException("Impossible to insert the object at '" + path
