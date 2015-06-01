@@ -35,8 +35,10 @@ package ch.fastforward.magnolia.ocm;
 
 import info.magnolia.module.DefaultModuleVersionHandler;
 import info.magnolia.module.delta.DeltaBuilder;
+import info.magnolia.module.delta.NodeExistsDelegateTask;
 import info.magnolia.module.delta.RemoveNodeWoChildren;
 import info.magnolia.module.delta.RemoveNodesTask;
+import info.magnolia.module.delta.Task;
 import info.magnolia.repository.RepositoryConstants;
 
 import java.util.Arrays;
@@ -66,13 +68,19 @@ public class OCMModuleVersionHandler extends DefaultModuleVersionHandler {
         );
 
         register(DeltaBuilder.update("1.2.1", "")
-                .addTask(new RemoveNodeWoChildren("Remove empty data section node in legacy menu", "Remove empty data section in legacy menu", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu/data"))
-                .addTask(new RemoveNodeWoChildren("Remove empty tools section node in legacy menu", "Remove empty tools section in legacy menu", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu/tools"))
-                .addTask(new RemoveNodeWoChildren("Remove empty legacy menu node", "Remove empty legacy menu node", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu"))
-                .addTask(new RemoveNodeWoChildren("Remove empty legacy config node", "Remove empty legacy config node", RepositoryConstants.CONFIG, "/modules/adminInterface/config"))
-                .addTask(new RemoveNodeWoChildren("Remove empty legacy date trees node", "Remove empty legacy date trees node", RepositoryConstants.CONFIG, "/modules/data/trees/"))
+                .addTask(getSafeRemoveNodeWoChildrenTask("Remove empty data section node in legacy menu", "Remove empty data section in legacy menu", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu/data"))
+                .addTask(getSafeRemoveNodeWoChildrenTask("Remove empty tools section node in legacy menu", "Remove empty tools section in legacy menu", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu/tools"))
+                .addTask(getSafeRemoveNodeWoChildrenTask("Remove empty legacy menu node", "Remove empty legacy menu node", RepositoryConstants.CONFIG, "/modules/adminInterface/config/menu"))
+                .addTask(getSafeRemoveNodeWoChildrenTask("Remove empty legacy config node", "Remove empty legacy config node", RepositoryConstants.CONFIG, "/modules/adminInterface/config"))
+                .addTask(getSafeRemoveNodeWoChildrenTask("Remove empty legacy date trees node", "Remove empty legacy date trees node", RepositoryConstants.CONFIG, "/modules/data/trees/"))
         );
-
     }
 
+    private Task getSafeRemoveNodeWoChildrenTask(String name,
+                                                 String description,
+                                                 String workspaceName,
+                                                 String pathToRemove) {
+        return new NodeExistsDelegateTask(name, description, workspaceName, pathToRemove,
+                new RemoveNodeWoChildren(name, description, workspaceName, pathToRemove));
+    }
 }
