@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>info.magnolia.maven.poms-forge</groupId>
         <artifactId>magnolia-parent-pom-forge</artifactId>
-        <version>30</version>    
+        <version>30</version>
     </parent>
     <groupId>ch.fastforward</groupId>
     <artifactId>magnolia-module-ocm</artifactId>
@@ -35,8 +36,8 @@
         <connection>scm:git:http://git.magnolia-cms.com/forge/ocm</connection>
         <developerConnection>scm:git:https://git.magnolia-cms.com/forge/ocm</developerConnection>
         <url>http://git.magnolia-cms.com/gitweb/?p=forge/ocm.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.apache</groupId>
@@ -97,17 +98,37 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.easymock</groupId>
-          <artifactId>easymock</artifactId>
-          <version>2.5</version>
-          <scope>test</scope>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.5</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit-dep</artifactId>
-          <version>4.10</version>
-          <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <!-- a profile used when performing a release -->
+            <id>release-perform-profile</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.2.3,3.2.5]</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
