@@ -242,6 +242,6 @@ public class MgnlObjectConverterImpl extends ObjectConverterImpl implements Seri
             }
         }
 
-        return null;
+        return parentNode;
     }
 }
