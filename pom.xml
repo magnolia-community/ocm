@@ -17,6 +17,7 @@
         <javaVersion>1.6</javaVersion>
         <!-- dual licensed : -->
         <magnoliaLicenseStyle>dual</magnoliaLicenseStyle>
+        <additionalReleaseProfiles/>
     </properties>
     <licenses>
         <license>
