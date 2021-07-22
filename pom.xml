@@ -8,7 +8,7 @@
     <groupId>ch.fastforward</groupId>
     <artifactId>magnolia-module-ocm</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.0</version>
+    <version>1.6.0-SNAPSHOT</version>
     <name>Magnolia Jackrabbit OCM module</name>
     <!--    <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>-->
     <properties>
@@ -52,7 +52,7 @@
         <connection>scm:git:git@github.com:magnolia-community/ocm.git</connection>
         <developerConnection>scm:git:git@github.com:magnolia-community/ocm.git</developerConnection>
         <url>https://github.com/magnolia-community/ocm</url>
-        <tag>magnolia-module-ocm-1.5.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <dependencyManagement>
         <dependencies>
