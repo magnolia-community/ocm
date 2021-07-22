@@ -35,6 +35,8 @@ package ch.fastforward.magnolia.ocm;
 
 import java.util.Collection;
 
+import ch.fastforward.magnolia.ocm.beans.ProxyClassDescriptor;
+
 /**
  * This is the configuration bean of your Magnolia module. It has to be registered in the module descriptor file 
  * under src/main/resources/META-INF/magnolia/mymodule.xml.
@@ -44,21 +46,19 @@ import java.util.Collection;
  */
 public class OcmModule {
 
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OcmModule.class);
-    public static final String MODULE_NAME = "ocm";
-    private Collection classDescriptors;
+    private Collection<ProxyClassDescriptor> classDescriptors;
 
     /**
      * @return the classDescriptors
      */
-    public Collection getClassDescriptors() {
+    public Collection<ProxyClassDescriptor> getClassDescriptors() {
         return classDescriptors;
     }
 
     /**
      * @param classDescriptors the classDescriptors to set
      */
-    public void setClassDescriptors(Collection classDescriptors) {
+    public void setClassDescriptors(Collection<ProxyClassDescriptor> classDescriptors) {
         this.classDescriptors = classDescriptors;
     }
 }

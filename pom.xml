@@ -12,7 +12,7 @@
     <name>Magnolia Jackrabbit OCM module</name>
     <!--    <url>http://www.fastforward.ch/web/ff/dokumentation/entwickler/magnolia-module-ocm.html</url>-->
     <properties>
-        <magnoliaBundleVersion>5.7</magnoliaBundleVersion>
+        <magnoliaBundleVersion>6.2.3</magnoliaBundleVersion>
         <javaVersion>1.8</javaVersion>
 
         <!-- dual licensed : -->
@@ -100,4 +100,40 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <!-- default resources configuration which will filter your module descriptors -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>META-INF/magnolia/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

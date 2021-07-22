@@ -33,14 +33,15 @@
  */
 package ch.fastforward.magnolia.ocm.ext;
 
+import java.util.Collection;
 import java.util.Iterator;
 
-import ch.fastforward.magnolia.ocm.OcmModule;
-import org.apache.jackrabbit.ocm.mapper.DescriptorReader;
-import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
-import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
-
 import javax.inject.Inject;
+
+import ch.fastforward.magnolia.ocm.OcmModule;
+import ch.fastforward.magnolia.ocm.beans.ProxyClassDescriptor;
+import org.apache.jackrabbit.ocm.mapper.DescriptorReader;
+import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
 
 /**
  * Allows OCM class descriptors to be stored in the Magnolia config tree instead
@@ -62,15 +63,14 @@ public class MgnlConfigDescriptorReader implements DescriptorReader {
      * 
      * @return MappingDescritor object containing the ClassDescriptors stored
      * in config:/modules/ocm/config/classDescriptors
-     * @todo Expand this method so that it actually reads the config tree and
-     * builds the ClassDescriptor objects so that we don't have to rely on
-     * Content2Bean to do it and therefore can get rid of "class" properties.
      */
     public MappingDescriptor loadClassDescriptors() {
         MappingDescriptor mappingDescriptor = new MappingDescriptor();
-        Iterator<ClassDescriptor> classDescriptors = ocmModule.getClassDescriptors().iterator();
+        Collection<ProxyClassDescriptor> descriptors = ocmModule.getClassDescriptors();
+        if (descriptors == null) throw new IllegalStateException("No class descriptors configured or not bootstraped yet. Check module load order.");
+        Iterator<ProxyClassDescriptor> classDescriptors = ocmModule.getClassDescriptors().iterator();
         while (classDescriptors.hasNext()) {
-            mappingDescriptor.addClassDescriptor(classDescriptors.next());
+            mappingDescriptor.addClassDescriptor(classDescriptors.next().asClassDescriptor());
         }
         return mappingDescriptor;
     }
