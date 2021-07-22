@@ -50,15 +50,6 @@ public class MgnlPersistentObjectCacheImpl extends RequestObjectCacheImpl implem
 
     private Map persistantCachedObjects = new HashMap();
 
-    /*
-     * Does NOT clear the cache as duplicate objects will be created next time
-     * you're loading them. Use {@link clearPersistanceCache()} to really clear
-     * the cache if you need to.
-     */
-    /*    @Override
-     public void clear() {
-     // do NOT clear the cache!
-     }*/
     /**
      * Caches an object both in the request cache and the persistent cache.
      *

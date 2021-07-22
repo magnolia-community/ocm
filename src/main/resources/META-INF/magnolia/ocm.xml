@@ -3,14 +3,14 @@
 <module>
   <name>ocm</name>
   <displayName>${project.name}</displayName>
-  <class>ch.fastforward.magnolia.ocm.OCMModule</class>
+  <class>ch.fastforward.magnolia.ocm.OcmModule</class>
   <versionHandler>ch.fastforward.magnolia.ocm.OCMModuleVersionHandler</versionHandler>
   <version>${project.version}</version>
   
   <dependencies>
     <dependency>
       <name>core</name>
-      <version>5.2/*</version>
+      <version>${magnoliaBundleVersion}/*</version>
     </dependency>
   </dependencies>
 </module>

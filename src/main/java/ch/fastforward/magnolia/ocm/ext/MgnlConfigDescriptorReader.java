@@ -33,11 +33,14 @@
  */
 package ch.fastforward.magnolia.ocm.ext;
 
-import ch.fastforward.magnolia.ocm.OCMModule;
 import java.util.Iterator;
+
+import ch.fastforward.magnolia.ocm.OcmModule;
 import org.apache.jackrabbit.ocm.mapper.DescriptorReader;
 import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
 import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
+
+import javax.inject.Inject;
 
 /**
  * Allows OCM class descriptors to be stored in the Magnolia config tree instead
@@ -45,6 +48,13 @@ import org.apache.jackrabbit.ocm.mapper.model.MappingDescriptor;
  * @author will
  */
 public class MgnlConfigDescriptorReader implements DescriptorReader {
+
+    private final OcmModule ocmModule;
+
+    @Inject
+    public MgnlConfigDescriptorReader(OcmModule ocmModule) {
+        this.ocmModule = ocmModule;
+    }
 
     /**
      * Turns the Collection of ClassDescriptor objects stored in the CRUDModule
@@ -58,7 +68,7 @@ public class MgnlConfigDescriptorReader implements DescriptorReader {
      */
     public MappingDescriptor loadClassDescriptors() {
         MappingDescriptor mappingDescriptor = new MappingDescriptor();
-        Iterator<ClassDescriptor> classDescriptors = OCMModule.getModuleConfig().getClassDescriptors().iterator();
+        Iterator<ClassDescriptor> classDescriptors = ocmModule.getClassDescriptors().iterator();
         while (classDescriptors.hasNext()) {
             mappingDescriptor.addClassDescriptor(classDescriptors.next());
         }

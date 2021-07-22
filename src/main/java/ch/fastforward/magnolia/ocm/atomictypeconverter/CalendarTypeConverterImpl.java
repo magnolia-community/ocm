@@ -45,36 +45,21 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Calendar Type Converter.
- *
- * @see
- * org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter#getValue(java.lang.Object)
- * @will
  */
 public class CalendarTypeConverterImpl implements AtomicTypeConverter {
 
     private Logger log = LoggerFactory.getLogger(CalendarTypeConverterImpl.class);
 
-    /**
-     *
-     * @see
-     * org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter#getValue(java.lang.Object)
-     */
+    @Override
     public Value getValue(ValueFactory valueFactory, Object propValue) {
         if (propValue == null) {
             return null;
         }
 
         return valueFactory.createValue((Calendar) propValue);
-        // return valueFactory.createValue(((Calendar) propValue).getTimeInMillis());
     }
 
-    /**
-     *
-     * @param value
-     * @return 
-     * @see
-     * org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter#getObject(javax.jcr.Value)
-     */
+    @Override
     public Object getObject(Value value) {
         try {
             Calendar calendar = Calendar.getInstance();
@@ -83,7 +68,6 @@ public class CalendarTypeConverterImpl implements AtomicTypeConverter {
         } catch (RepositoryException e) {
             try {
                 log.error("could not get date value from " + value.getString(), e);
-//            throw new IncorrectAtomicTypeException("Impossible to convert the value : " + value.toString(), e);
             } catch (IllegalStateException ex) {
                 log.error("could not get date and not even string value from " + value, e);
             } catch (RepositoryException ex) {
@@ -93,11 +77,7 @@ public class CalendarTypeConverterImpl implements AtomicTypeConverter {
         }
     }
 
-    /**
-     *
-     * @see
-     * org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter#getStringValue(java.lang.Object)
-     */
+    @Override
     public String getXPathQueryValue(ValueFactory valueFactory, Object object) {
         Calendar calendar = (Calendar) object;
         //@TODO: This method should output something like "xs:dateTime('2010-10-23T00:00:00.000+02:00')"

@@ -82,10 +82,6 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
         super(atomicTypeConverters, objectConverter, mapper);
     }
 
-    /**
-     * @see AbstractCollectionConverterImpl#doInsertCollection(Session, Node,
-     * CollectionDescriptor, ManageableCollection)
-     */
     @Override
     protected void doInsertCollection(Session session,
             Node parentNode,
@@ -225,9 +221,6 @@ public class MgnlDefaultCollectionConverterImpl extends DefaultCollectionConvert
     /**
      * Exact copy of DefaultCollectionConverterImpl.doUpdateCollection(), only
      * needed because it calls private methods that needed to be adapted...
-     *
-     * @see AbstractCollectionConverterImpl#doUpdateCollection(Session, Node,
-     * CollectionDescriptor, ManageableCollection)
      */
     @Override
     protected void doUpdateCollection(Session session,

@@ -33,7 +33,6 @@
  */
 package ch.fastforward.magnolia.ocm;
 
-import info.magnolia.module.ModuleRegistry;
 import java.util.Collection;
 
 /**
@@ -43,22 +42,11 @@ import java.util.Collection;
  * The bean properties used in this class will be initialized by Content2Bean which means that properties of in the 
  * node config:/modules/mymodule/config/* are populated to this bean when the module is initialized.
  */
-public class OCMModule {
+public class OcmModule {
 
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OCMModule.class);
+    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OcmModule.class);
     public static final String MODULE_NAME = "ocm";
     private Collection classDescriptors;
-
-    /*
-     * Required default constructor
-     */
-    public OCMModule() {
-        // TODO: insert your initialization stuff here
-    }
-
-    public static OCMModule getModuleConfig() {
-        return (OCMModule) ModuleRegistry.Factory.getInstance().getModuleInstance(MODULE_NAME);
-    }
 
     /**
      * @return the classDescriptors

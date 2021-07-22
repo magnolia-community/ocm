@@ -33,7 +33,10 @@
  */
 package ch.fastforward.magnolia.ocm.ext;
 
+import ch.fastforward.magnolia.ocm.OcmModule;
 import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
+
+import javax.inject.Inject;
 
 /**
  * Config mapper implementation for configurations stored in the Magnolia config tree.
@@ -41,8 +44,9 @@ import org.apache.jackrabbit.ocm.mapper.impl.AbstractMapperImpl;
  */
 public class MgnlConfigMapperImpl extends AbstractMapperImpl {
 
-    public MgnlConfigMapperImpl() {
-        this.descriptorReader = new MgnlConfigDescriptorReader();
+    @Inject
+    public MgnlConfigMapperImpl(OcmModule ocmModule) {
+        this.descriptorReader = new MgnlConfigDescriptorReader(ocmModule);
         this.buildMapper();
     }
 }

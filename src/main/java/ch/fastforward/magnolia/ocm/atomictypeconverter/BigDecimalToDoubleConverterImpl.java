@@ -47,13 +47,15 @@ import org.apache.jackrabbit.ocm.manager.atomictypeconverter.AtomicTypeConverter
  */
 public class BigDecimalToDoubleConverterImpl implements AtomicTypeConverter {
 
+    @Override
     public Value getValue(ValueFactory valueFactory, Object propValue) {
         if (propValue == null) {
             return null;
         }
-        return valueFactory.createValue(((java.math.BigDecimal) propValue).doubleValue());
+        return valueFactory.createValue(((BigDecimal) propValue).doubleValue());
     }
 
+    @Override
     public Object getObject(Value value) {
         try {
             double val = value.getDouble();
@@ -63,6 +65,7 @@ public class BigDecimalToDoubleConverterImpl implements AtomicTypeConverter {
         }
     }
 
+    @Override
     public String getXPathQueryValue(ValueFactory vf, Object object) {
         return object.toString();
     }

@@ -33,7 +33,6 @@
  */
 package ch.fastforward.magnolia.ocm.util;
 
-import info.magnolia.cms.security.AccessDeniedException;
 import info.magnolia.context.MgnlContext;
 import info.magnolia.context.SystemContext;
 import org.slf4j.Logger;
@@ -63,7 +62,7 @@ public class MgnlOCMUtil {
 
     public static Node getClassDescriptorNode(String className, SystemContext sysCtx) {
         try {
-            String queryString = "SELECT * FROM mgnl:contentNode WHERE jcr:path LIKE '/modules/ocm/config/classDescriptors/%' AND className = '" + className + "'";
+            String queryString = "SELECT * FROM nt:base WHERE jcr:path LIKE '/modules/ocm/config/classDescriptors/%' AND className = '" + className + "'";
             QueryManager qm = sysCtx.getJCRSession(CONFIG_REPO).getWorkspace().getQueryManager();
             NodeIterator nodesIter = qm.createQuery(queryString, "sql").execute().getNodes();
             if (nodesIter.hasNext()) {
@@ -71,8 +70,6 @@ public class MgnlOCMUtil {
             } else {
                 log.error("No class descriptor node found for query \"" + queryString + "\"");
             }
-        } catch (AccessDeniedException ex) {
-            log.error("Could not read or update nextBeanID in classDescripter node for class " + className, ex);
         } catch (RepositoryException ex) {
             log.error("Could not read or update nextBeanID in classDescripter node for class " + className, ex);
         }

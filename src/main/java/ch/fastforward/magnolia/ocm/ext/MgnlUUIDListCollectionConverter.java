@@ -106,8 +106,7 @@ public class MgnlUUIDListCollectionConverter extends MgnlDefaultCollectionConver
         }
         Session targetWorkspaceSession = session;
         if (!session.getWorkspace().getName().equals(targetWorkspaceName)) {
-            // @TODO: get the session to access the target workspace
-            targetWorkspaceSession = MgnlContext.getHierarchyManager(targetWorkspaceName).getWorkspace().getSession();
+            targetWorkspaceSession = MgnlContext.getJCRSession(targetWorkspaceName);
         }
         Property currProp;
         while (properties.hasNext()) {
@@ -142,9 +141,6 @@ public class MgnlUUIDListCollectionConverter extends MgnlDefaultCollectionConver
         return objects;
     }
 
-    /**
-     * @see AbstractCollectionConverterImpl#doInsertCollection(Session, Node, CollectionDescriptor, ManageableCollection)
-     */
     @Override
     protected void doInsertCollection(Session session,
             Node parentNode,
@@ -223,7 +219,6 @@ public class MgnlUUIDListCollectionConverter extends MgnlDefaultCollectionConver
     /**
      * Exact copy of DefaultCollectionConverterImpl.doUpdateCollection(), only
      * needed because it calls private methods that needed to be adapted...
-     * @see AbstractCollectionConverterImpl#doUpdateCollection(Session, Node, CollectionDescriptor, ManageableCollection)
      */
     @Override
     protected void doUpdateCollection(Session session,

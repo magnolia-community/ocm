@@ -123,9 +123,6 @@ public class MgnlNodeDataCollectionConverter extends DefaultCollectionConverterI
         return objects;
     }
 
-    /**
-     * @see AbstractCollectionConverterImpl#doInsertCollection(Session, Node, CollectionDescriptor, ManageableCollection)
-     */
     @Override
     protected void doInsertCollection(Session session,
             Node parentNode,
@@ -231,7 +228,6 @@ public class MgnlNodeDataCollectionConverter extends DefaultCollectionConverterI
     /**
      * Exact copy of DefaultCollectionConverterImpl.doUpdateCollection(), only
      * needed because it calls private methods that needed to be adapted...
-     * @see AbstractCollectionConverterImpl#doUpdateCollection(Session, Node, CollectionDescriptor, ManageableCollection)
      */
     @Override
     protected void doUpdateCollection(Session session,
@@ -306,108 +302,5 @@ public class MgnlNodeDataCollectionConverter extends DefaultCollectionConverterI
             }
         }
         insertManageableCollection(session, objects, collectionNode, null, collectionDescriptor);
-
-        //  If the collection elements have not an id, it is not possible to find the matching JCR nodes
-        //  => delete the complete collection
-/*        if (!elementClassDescriptor.hasIdField() && !elementClassDescriptor.hasUUIdField()) {
-        collectionNode.remove();
-        collectionNode = parentNode.addNode(jcrName);
-        }*/
-
-
-
-        /*
-
-        Iterator collectionIterator = objects.getIterator();
-
-        Map updatedItems = new HashMap();
-        List<String> validUuidsForTheNode = new ArrayList<String>();
-        while (collectionIterator.hasNext()) {
-        Object item = collectionIterator.next();
-        String elementJcrName = null;
-
-        if (elementClassDescriptor.hasUUIdField()) {
-        // @TODO: look for a name attribute or getName() field in the item
-        elementJcrName = collectionDescriptor.getJcrElementName();
-        elementJcrName = (elementJcrName == null) ? COLLECTION_ELEMENT_NAME : elementJcrName;
-        String uuidFieldName = elementClassDescriptor.getUuidFieldDescriptor().getFieldName();
-        Object objUuid = ReflectionUtils.getNestedProperty(item, uuidFieldName);
-        String currentItemUuid = (objUuid == null) ? null : objUuid.toString();
-        if (currentItemUuid != null) {
-        //The Node already exists so we need to update the existing node
-        //rather than to replace it.
-        Node nodeToUpdate = collectionNode.getSession().getNodeByUUID(currentItemUuid);
-        objectConverter.update(session, currentItemUuid, item);
-        validUuidsForTheNode.add(currentItemUuid);
-        } else {
-        objectConverter.insert(session, collectionNode, elementJcrName, item);
-        validUuidsForTheNode.add(ReflectionUtils.getNestedProperty(item, uuidFieldName).toString());
-        }
-
-        } else if (elementClassDescriptor.hasIdField()) {
-
-        String idFieldName = elementClassDescriptor.getIdFieldDescriptor().getFieldName();
-        elementJcrName = ReflectionUtils.getNestedProperty(item, idFieldName).toString();
-
-        // Update existing JCR Nodes
-        if (collectionNode.hasNode(elementJcrName)) {
-        objectConverter.update(session, collectionNode, elementJcrName, item);
-        } else {
-        // Add new collection elements
-        objectConverter.insert(session, collectionNode, elementJcrName, item);
-        }
-
-        updatedItems.put(elementJcrName, item);
-        } else {
-        elementJcrName = collectionDescriptor.getJcrElementName();
-        if (elementJcrName == null) { // use PathFormat.checkFormat() here?
-        elementJcrName = COLLECTION_ELEMENT_NAME;
-        }
-        objectConverter.insert(session, collectionNode, elementJcrName, item);
-        }
-        }
-
-        // Delete JCR nodes that are not present in the collection... except the
-        // ones required by the node type definition (i.e. mandatory child nodes
-        // of the collection node)
-        if (elementClassDescriptor.hasUUIdField()) {
-        NodeType collectionNodeType = session.getWorkspace().getNodeTypeManager().getNodeType(collectionDescriptor.getJcrType());
-        NodeDefinition[] childNodeTypes = collectionNodeType.getChildNodeDefinitions();
-        ArrayList mandatoryChildNodeNames = new ArrayList();
-        NodeDefinition currNodeDef;
-        for (int i = 0; i < childNodeTypes.length; i++) {
-        currNodeDef = childNodeTypes[i];
-        if (currNodeDef.isMandatory()) {
-        mandatoryChildNodeNames.add(currNodeDef.getName());
-        }
-        }
-        NodeIterator nodeIterator = collectionNode.getNodes();
-        List<Node> removeNodes = new ArrayList<Node>();
-        while (nodeIterator.hasNext()) {
-        Node currentNode = nodeIterator.nextNode();
-        if (!validUuidsForTheNode.contains(currentNode.getUUID()) && !mandatoryChildNodeNames.contains(currentNode.getName())) {
-        removeNodes.add(currentNode);
-        }
-        }
-        for (Node aNode : removeNodes) {
-        aNode.remove();
-        }
-        return;
-        }
-
-        // Delete JCR nodes that are not present in the collection
-        if (elementClassDescriptor.hasIdField()) {
-        NodeIterator nodeIterator = collectionNode.getNodes();
-        List removeNodes = new ArrayList();
-        while (nodeIterator.hasNext()) {
-        Node child = nodeIterator.nextNode();
-        if (!updatedItems.containsKey(child.getName())) {
-        removeNodes.add(child);
-        }
-        }
-        for (int i = 0; i < removeNodes.size(); i++) {
-        ((Node) removeNodes.get(i)).remove();
-        }
-        }*/
     }
 }
