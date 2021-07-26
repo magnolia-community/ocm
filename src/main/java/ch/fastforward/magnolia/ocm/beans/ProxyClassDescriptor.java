@@ -34,6 +34,7 @@
 package ch.fastforward.magnolia.ocm.beans;
 
 import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
+import org.apache.jackrabbit.ocm.mapper.model.CollectionDescriptor;
 import org.apache.jackrabbit.ocm.mapper.model.FieldDescriptor;
 
 import java.util.Map;
@@ -59,6 +60,7 @@ public class ProxyClassDescriptor {
      */
     private String jcrMixinTypes;
     private Map<String, FieldDescriptor> fieldDescriptors;
+    private Map<String, CollectionDescriptor> collectionDescriptors;
     private FieldDescriptor idFieldDescriptor;
     private FieldDescriptor pathFieldDescriptor;
     private FieldDescriptor uuidFieldDescriptor;
@@ -111,6 +113,14 @@ public class ProxyClassDescriptor {
         this.fieldDescriptors = fieldDescriptors;
     }
 
+    public Map<String, CollectionDescriptor> getCollectionDescriptors() {
+        return collectionDescriptors;
+    }
+
+    public void setCollectionDescriptors(Map<String, CollectionDescriptor> collectionDescriptors) {
+        this.collectionDescriptors = collectionDescriptors;
+    }
+
     public FieldDescriptor getIdFieldDescriptor() {
         return idFieldDescriptor;
     }
@@ -141,8 +151,15 @@ public class ProxyClassDescriptor {
         descriptor.setJcrSuperTypes(jcrSuperTypes);
         descriptor.setJcrMixinTypes(jcrMixinTypes);
         descriptor.setJcrType(jcrType);
-        for (FieldDescriptor fieldDescriptor : fieldDescriptors.values()) {
-            descriptor.addFieldDescriptor(fieldDescriptor);
+        if (fieldDescriptors != null) {
+            for (FieldDescriptor fieldDescriptor : fieldDescriptors.values()) {
+                descriptor.addFieldDescriptor(fieldDescriptor);
+            }
+        }
+        if (collectionDescriptors != null) {
+            for (CollectionDescriptor collectionDescriptor : collectionDescriptors.values()) {
+                descriptor.addCollectionDescriptor(collectionDescriptor);
+            }
         }
         if (pathFieldDescriptor != null) descriptor.addFieldDescriptor(pathFieldDescriptor);
         if (uuidFieldDescriptor != null) descriptor.addFieldDescriptor(uuidFieldDescriptor);
